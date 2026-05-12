@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" prefHeight="700.0" prefWidth="400.0" spacing="15.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cercaevent.Controllers.EventController">
+    <padding><Insets bottom="20.0" left="20.0" right="20.0" top="20.0" /></padding>
+   <children>
+      <Text text="Detalls de l'Event" />
+      <GridPane vgap="10.0">
+        <columnConstraints>
+          <ColumnConstraints prefWidth="150.0" /><ColumnConstraints prefWidth="200.0" />
+        </columnConstraints>
+         <children>
+            <Text text="Titol" GridPane.rowIndex="0" /><TextField fx:id="titol" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Text text="Ubicacio" GridPane.rowIndex="1" /><TextField fx:id="ubicacio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text text="Data (YYYY-MM-DD)" GridPane.rowIndex="2" /><TextField fx:id="data_event" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Text text="Hora (HH:MM)" GridPane.rowIndex="3" /><TextField fx:id="hora_event" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Text text="Aforament" GridPane.rowIndex="4" /><TextField fx:id="aforament" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Text text="Places lliures" GridPane.rowIndex="5" /><TextField fx:id="places_disponibles" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         </children>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children><Text text="Categoria: " /><ComboBox fx:id="selector" onAction="#actualitzarEtiquetes" prefWidth="200.0" /></children>
+      </HBox>
+
+      <VBox spacing="10.0">
+         <children>
+            <HBox spacing="10.0"><Text fx:id="type1" text="..." /><TextField fx:id="password211" HBox.hgrow="ALWAYS" /></HBox>
+            <HBox spacing="10.0"><Text fx:id="type2" text="..." /><TextField fx:id="password212" HBox.hgrow="ALWAYS" /></HBox>
+            <HBox spacing="10.0"><Text fx:id="type3" text="..." /><TextField fx:id="password213" HBox.hgrow="ALWAYS" /></HBox>
+         </children>
+      </VBox>
+
+      <Button maxWidth="Infinity" onAction="#hacerEvento" text="Create" />
+      <Button maxWidth="Infinity" onAction="#editarEvento" text="Update" />
+      <Button maxWidth="Infinity" onAction="#eliminar" text="DELETE" />
+      <Button maxWidth="Infinity" onAction="#tornar" text="Volver" />
+   </children>
+</VBox>
