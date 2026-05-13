@@ -17,8 +17,8 @@
       <Button fx:id="ValidarUsuari1" onAction="#irRegistroPag" text="Registrar" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Usuari" />
       <TextField fx:id="usuari" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" />
-      <TextField fx:id="contraseña" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contrasenya" />
+   <TextField fx:id="contrasenya" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="console" />
       <TextField fx:id="msg" />
       <Button fx:id="ValidarUsuari" onAction="#validarUsuari" text="Login" />

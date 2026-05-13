@@ -14,10 +14,12 @@ import cercaevent.serveis.App;
 import cercaevent.serveis.serveiUsuari;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -26,41 +28,92 @@ import javafx.scene.input.MouseEvent;
 
 public class CercaEventController {
 
-    @FXML private TextField Ubicacio;
-    @FXML private DatePicker Data;
-    @FXML private CheckBox Places;
-    @FXML private Button Aplicar, Netejar, Tots, Meus, Inscrits;
+    @FXML
+    private TextField Ubicacio;
+    @FXML
+    private DatePicker Data;
+    @FXML
+    private CheckBox Places;
+    @FXML
+    private Button Aplicar, Netejar, Tots, Meus, Inscrits, btAdeu, btCrearUsuari;
+    @FXML
+    private Label lblNomUsuari;
 
-    @FXML private TableView<Event> tableEvents;
-    @FXML private TableColumn<Event, String> colTitol;
-    @FXML private TableColumn<Event, String> colCategoria;
-    @FXML private TableColumn<Event, String> colUbicacio;
-    @FXML private TableColumn<Event, LocalDate> colData;
-    @FXML private TableColumn<Event, LocalTime> colHora;
-    @FXML private TableColumn<Event, Integer> colPlaces;
+    @FXML
+    private TableView<Event> tableEvents;
+    @FXML
+    private TableColumn<Event, String> colTitol;
+    @FXML
+    private TableColumn<Event, String> colCategoria;
+    @FXML
+    private TableColumn<Event, String> colUbicacio;
+    @FXML
+    private TableColumn<Event, LocalDate> colData;
+    @FXML
+    private TableColumn<Event, LocalTime> colHora;
+    @FXML
+    private TableColumn<Event, Integer> colPlaces;
 
     private List<Event> llistaActual = new ArrayList<>();
     private Usuari usuariActual;
 
     @FXML
-    public void initialize () {
+    public void initialize() {
+        // Inicialització del controlador.
+        // - Recuperem l'usuari loguejat per adaptar la UI (nom, permisos)
+        // - Configurem les columnes de la taula i carreguem tots els events.
+        // Comentaris: faig comprovacions null per evitar excepcions si algun fx:id
+        // falta al FXML durant proves.
         usuariActual = serveiUsuari.getUsuariLoguejat();
-        colTitol.setCellValueFactory(new PropertyValueFactory<>("titol"));
-        colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
-        colUbicacio.setCellValueFactory(new PropertyValueFactory<>("ubicacio"));
-        colData.setCellValueFactory(new PropertyValueFactory<>("data_event"));
-        colHora.setCellValueFactory(new PropertyValueFactory<>("hora_event"));
-        colPlaces.setCellValueFactory(new PropertyValueFactory<>("places_disponibles"));
+
+        // --- ESCUTS ANTI-CRASH ---
+        if (usuariActual != null) {
+            if (lblNomUsuari != null) {
+                lblNomUsuari.setText("Usuari: " + usuariActual.getNom());
+            } else {
+                System.out.println("⚠️ ALERTA: lblNomUsuari no s'ha trobat al FXML!");
+            }
+
+            if ("ADMIN".equals(usuariActual.getRol())) {
+                if (btCrearUsuari != null) {
+                    btCrearUsuari.setVisible(true);
+                    btCrearUsuari.setManaged(true);
+                } else {
+                    System.out.println("⚠️ ALERTA: btCrearUsuari no s'ha trobat al FXML!");
+                }
+            }
+        }
+
+        // Més seguretat per a les columnes de la taula
+        if (colTitol != null)
+            colTitol.setCellValueFactory(new PropertyValueFactory<>("titol"));
+        if (colCategoria != null)
+            colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        if (colUbicacio != null)
+            colUbicacio.setCellValueFactory(new PropertyValueFactory<>("ubicacio"));
+        if (colData != null)
+            colData.setCellValueFactory(new PropertyValueFactory<>("data_event"));
+        if (colHora != null)
+            colHora.setCellValueFactory(new PropertyValueFactory<>("hora_event"));
+        if (colPlaces != null)
+            colPlaces.setCellValueFactory(new PropertyValueFactory<>("places_disponibles"));
+
         carregarTots();
     }
 
     @FXML
     private void carregarTots() {
+        // Carrego tots els events des de la BD i actualitzo l'estat dels botons
+        // (Tots/Meus/Inscrits). En cas d'error, ho faig printStackTrace perquè
+        // és més senzill de debugar en l'entorn d'examen.
         try {
             llistaActual = EventDAO.obtenirTotsElsEvents();
-            Tots.setDisable(true); 
-            Meus.setDisable(false); 
-            Inscrits.setDisable(false);
+            if (Tots != null)
+                Tots.setDisable(true);
+            if (Meus != null)
+                Meus.setDisable(false);
+            if (Inscrits != null)
+                Inscrits.setDisable(false);
             aplicarFiltros();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,12 +122,17 @@ public class CercaEventController {
 
     @FXML
     private void carregarMeus() {
+        // Carrego només els events creats pel usuari actual.
         try {
-            if (usuariActual == null) return; 
+            if (usuariActual == null)
+                return;
             llistaActual = EventDAO.obtenirElsMeusEvents(usuariActual.getId());
-            Tots.setDisable(false); 
-            Meus.setDisable(true); 
-            Inscrits.setDisable(false);
+            if (Tots != null)
+                Tots.setDisable(false);
+            if (Meus != null)
+                Meus.setDisable(true);
+            if (Inscrits != null)
+                Inscrits.setDisable(false);
             aplicarFiltros();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,12 +141,17 @@ public class CercaEventController {
 
     @FXML
     private void carregarInscrits() {
+        // Carrego només els events on l'usuari està inscrit.
         try {
-            if (usuariActual == null) return; 
+            if (usuariActual == null)
+                return;
             llistaActual = EventDAO.obtenirEventsInscrits(usuariActual.getId());
-            Tots.setDisable(false); 
-            Meus.setDisable(false); 
-            Inscrits.setDisable(true);
+            if (Tots != null)
+                Tots.setDisable(false);
+            if (Meus != null)
+                Meus.setDisable(false);
+            if (Inscrits != null)
+                Inscrits.setDisable(true);
             aplicarFiltros();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,6 +160,11 @@ public class CercaEventController {
 
     @FXML
     private void aplicarFiltros() {
+        // Aplicar filtres simples sobre la llistaActual.
+        // Edge cases: controlo camps null per evitar NullPointerException.
+        if (Ubicacio == null || Data == null || Places == null)
+            return;
+
         String ubiBusqueda = Ubicacio.getText().toLowerCase();
         LocalDate dataBusqueda = Data.getValue();
         boolean nomasAmbPlaces = Places.isSelected();
@@ -133,20 +201,24 @@ public class CercaEventController {
         }
 
         ObservableList<Event> observableList = FXCollections.observableArrayList(llistaFiltrada);
-        tableEvents.setItems(observableList);
+        if (tableEvents != null)
+            tableEvents.setItems(observableList);
     }
 
     @FXML
     private void netejarFiltros() {
-        Ubicacio.clear();
-        Data.setValue(null);
-        Places.setSelected(false);
-        aplicarFiltros(); 
+        if (Ubicacio != null)
+            Ubicacio.clear();
+        if (Data != null)
+            Data.setValue(null);
+        if (Places != null)
+            Places.setSelected(false);
+        aplicarFiltros();
     }
 
     @FXML
     private void clickTaula(MouseEvent event) {
-        if (event.getClickCount() == 1) {
+        if (event.getClickCount() == 1 && tableEvents != null) {
             Event eventSeleccionat = tableEvents.getSelectionModel().getSelectedItem();
             if (eventSeleccionat != null) {
                 try {
@@ -159,18 +231,38 @@ public class CercaEventController {
     }
 
     private void gestionarClicEvent(Event evento) throws IOException {
-        if (usuariActual == null) {
-            System.out.println("Atenció: No hi ha cap usuari loguejat (sessió nula).");
+        if (usuariActual == null)
             return;
-        }
-    boolean esAdmin = "ADMIN".equals(usuariActual.getRol());
+        boolean esAdmin = "ADMIN".equals(usuariActual.getRol());
         boolean esPropietario = evento.getCreador_id() == usuariActual.getId();
 
+        // Si som admin o propietari, obrim la vista d'edició/visualització de l'event.
         if (esAdmin || esPropietario) {
-            EventController.setEventSeleccionat(evento); 
+            EventController.setEventSeleccionat(evento);
             App.setRoot("Event");
         } else {
-            System.out.println("No tens els permisos d'ADMINISTRADOR ni ets el creador per veure/editar aquest event.");
+            System.out.println("No tens permisos.");
+        }
+    }
+
+    @FXML
+    private void adeuSessio(ActionEvent event) {
+        // Netejo la sessió i torno a la pantalla de login.
+        // Aquest mètode és cridat pel botó btAdeu.
+        serveiUsuari.tancarSessio();
+        try {
+            App.setRoot("Login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void crearUsuariAdmin(ActionEvent event) {
+        try {
+            App.setRoot("Register");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

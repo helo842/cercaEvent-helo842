@@ -16,7 +16,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        
+        // Inicio l'aplicació mostrant la pantalla de Login.
+        // He triat una mida per defecte (640x480) que és suficient per les pantalles
+        // FXML.
+        // Si cal, l'usuari/jo podem ajustar-ho més endavant segons disseny.
+
         scene = new Scene(loadFXML("Login"), 640, 480);
         stage.setScene(scene);
         stage.show();
@@ -27,6 +31,9 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
+        // Carrego el recurs FXML des del directori resources.
+        // Nota: l'App utilitza el nom de fitxer sense ruta, per exemple "Login" ->
+        // "Login.fxml".
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
@@ -34,7 +41,7 @@ public class App extends Application {
     public static void main(String[] args) {
 
         try {
-            
+
             Server webServer = Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
             System.out.println("");
             System.out.println("Servidor H2 engegat a: " + webServer.getURL());
@@ -43,7 +50,6 @@ public class App extends Application {
             System.out.println("");
             System.out.println("");
             System.out.println("");
-
 
         } catch (Exception e) {
             System.out.println("");

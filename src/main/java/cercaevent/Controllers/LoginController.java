@@ -9,11 +9,11 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
 
-@FXML
+    @FXML
     private TextField usuari;
 
     @FXML
-    private TextField contraseña;
+    private TextField contrasenya;
 
     @FXML
     private TextField msg;
@@ -21,7 +21,10 @@ public class LoginController {
     @FXML
     private void validarUsuari() throws IOException {
         try {
-            serveiUsuari.existeixUsuari(usuari.getText(), contraseña.getText());
+            // Intento autenticar l'usuari amb l'email/usuari i la contrasenya.
+            // Si és correcte, serveiUsuari guarda l'usuari a la sessió i
+            // navego a la pantalla principal (CercaEvent).
+            serveiUsuari.existeixUsuari(usuari.getText(), contrasenya.getText());
             App.setRoot("CercaEvent");
         } catch (Exception e) {
             msg.setText("Error: " + e.getMessage());
@@ -30,6 +33,7 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void irRegistroPag() throws IOException {
         try {
@@ -38,10 +42,5 @@ public class LoginController {
             System.out.println("Error al cargar la página de registro:");
             e.printStackTrace();
         }
-}
     }
-
-
-
-
-
+}

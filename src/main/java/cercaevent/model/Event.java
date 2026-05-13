@@ -19,6 +19,10 @@ public class Event {
     private String camp2;
     private String camp3;
 
+    // Comentari: camp1/camp2/camp3 s'utilitzen per emmagatzemar camps específics
+    // depenent de la categoria de l'event (p.ex. Videojoc ->
+    // joc/plataforma/modalitat).
+
     public Event(int id, String titol, String ubicacio, LocalDate data_event, LocalTime hora_event, int aforament,
             int places_disponibles, String categoria, int creador_id) {
         this.id = id;
@@ -143,7 +147,7 @@ public class Event {
     public String toString() {
         return "Event [id=" + id + ", titol=" + titol + ", ubicacio=" + ubicacio + ", data_event=" + data_event
                 + ", hora_event=" + hora_event + ", aforament=" + aforament + ", places_disponibles="
-                + places_disponibles + ", categoria=" + categoria + ", creador_id=" + creador_id 
+                + places_disponibles + ", categoria=" + categoria + ", creador_id=" + creador_id
                 + ", descripcio=" + descripcio + ", camp1=" + camp1 + ", camp2=" + camp2 + ", camp3=" + camp3 + "]";
     }
 }
