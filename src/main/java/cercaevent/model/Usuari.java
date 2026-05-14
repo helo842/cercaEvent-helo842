@@ -1,3 +1,7 @@
+/*
+ * Model Usuari: representa un usuari del sistema amb camps bàsics
+ * (usuari, nom, email, rol, etc.). Inclou getters/setters per manipular dades.
+ */
 package cercaevent.model;
 import java.sql.Timestamp;
 public class Usuari {

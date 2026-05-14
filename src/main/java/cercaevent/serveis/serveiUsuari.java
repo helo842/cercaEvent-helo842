@@ -1,3 +1,8 @@
+/*
+ * Servei d'usuari: encapsula la lògica d'alt nivell per gestionar
+ * operacions d'usuaris i events (validacions i crides a DAO).
+ * Comentaris en català per facilitar manteniment i comprensió.
+ */
 package cercaevent.serveis;
 
 import cercaevent.dao.UsuariDAO;

@@ -1,3 +1,7 @@
+/*
+ * Model Event: conté les propietats d'un esdeveniment (títol, ubicació,
+ * data/hora, categoria, camps específics) i mètodes d'accés.
+ */
 package cercaevent.model;
 
 import java.time.LocalDate;

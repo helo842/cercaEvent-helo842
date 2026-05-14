@@ -1,3 +1,7 @@
+/*
+ * DAO d'usuaris: accés a la base de dades per a operacions CRUD i autenticació.
+ * Conté les consultes SQL i la transformació ResultSet -> models.
+ */
 package cercaevent.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

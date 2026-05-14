@@ -1,4 +1,9 @@
 
+/*
+ * Mòdul: cercaevent
+ * Descripció: definició del mòdul per al projecte CercaEvent.
+ * Aquest fitxer declara els paquets exposats per la compilació modular.
+ */
 module cercaevent {
     requires transitive javafx.controls;
     requires javafx.fxml;

@@ -47,8 +47,8 @@
                 <version>0.0.6</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running -->
-                        <!-- Usage: mvn clean javafx:run -->
+                        <!-- Configuració per defecte per executar l'aplicació -->
+                        <!-- Ús: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>cercaevent.App</mainClass>

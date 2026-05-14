@@ -1,3 +1,7 @@
+/*
+ * Connexió a la base de dades: gestiona l'obtenció de connexions JDBC
+ * (H2) i la configuració bàsica per a l'accés a dades.
+ */
 package cercaevent.db;
 
 import java.sql.Connection;

@@ -1,3 +1,7 @@
+/*
+ * Classe App: utilitats per canviar arrels FXML i iniciar l'aplicació JavaFX.
+ * Aquest fitxer s'encarrega de la càrrega de recursos i del canvi de pantalles.
+ */
 package cercaevent.serveis;
 
 import java.io.IOException;

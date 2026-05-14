@@ -1,3 +1,7 @@
+/*
+ * Controlador principal de cerca d'events: gestiona la llista d'esdeveniments
+ * i les accions de cerca/filtrat a la vista principal.
+ */
 package cercaevent.Controllers;
 
 import java.io.IOException;

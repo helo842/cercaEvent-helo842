@@ -1,15 +1,15 @@
--- schema.sql
--- Projecte CercaEvent
--- Base de dades H2
--- Les contrasenyes d'exemple es guarden amb BCrypt.
--- La contrasenya en text pla només apareix en comentaris per facilitar les proves.
+-- Esquema H2 per a CercaEvent: estructura de taules i dades d'exemple
+-- Projecte: CercaEvent
+-- Motor de base de dades: H2 (configuració d'exemple)
+-- Les contrasenyes d'exemple estan encriptades amb BCrypt
+-- Les contrasenyes en text pla només apareixen als comentaris per facilitar proves locals
 
 DROP TABLE IF EXISTS inscripcions;
 DROP TABLE IF EXISTS events;
 DROP TABLE IF EXISTS usuaris;
 
 --------------------------------------------------
--- TAULA USUARIS
+-- Taula: usuaris (estructura i restriccions)
 --------------------------------------------------
 CREATE TABLE usuaris (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,12 +24,12 @@ CREATE TABLE usuaris (
 );
 
 --------------------------------------------------
--- TAULA EVENTS
+-- Taula: events (camps comuns i camps específics per categoria)
 --------------------------------------------------
 CREATE TABLE events (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
-    -- Camps comuns
+    -- Camps comuns de l'event (atributs generals)
     titol VARCHAR(200) NOT NULL,
     descripcio CLOB,
     ubicacio VARCHAR(150) NOT NULL,
@@ -40,17 +40,17 @@ CREATE TABLE events (
     categoria VARCHAR(20) NOT NULL,
     creador_id INT NOT NULL,
 
-    -- Camps específics Esport
+    -- Camps específics per categoria 'Esport'
     tipus_esport VARCHAR(100),
     nivell VARCHAR(50),
     material_necessari VARCHAR(255),
 
-    -- Camps específics Videojoc
+    -- Camps específics per categoria 'Videojoc'
     joc VARCHAR(100),
     plataforma VARCHAR(100),
     modalitat VARCHAR(100),
 
-    -- Camps específics Trobada
+    -- Camps específics per categoria 'Trobada'
     tema VARCHAR(100),
     tipus_trobada VARCHAR(100),
     edat_minima INT,
@@ -74,7 +74,7 @@ CREATE TABLE events (
 );
 
 --------------------------------------------------
--- TAULA INSCRIPCIONS
+-- Taula: inscripcions (relació entre usuaris i events)
 --------------------------------------------------
 CREATE TABLE inscripcions (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -97,7 +97,7 @@ CREATE TABLE inscripcions (
 );
 
 --------------------------------------------------
--- ÍNDEXS
+-- Índexs recomanats per optimitzar consultes comunes
 --------------------------------------------------
 CREATE INDEX idx_usuaris_usuari ON usuaris(usuari);
 CREATE INDEX idx_usuaris_email ON usuaris(email);
@@ -108,34 +108,34 @@ CREATE INDEX idx_inscripcions_usuari_id ON inscripcions(usuari_id);
 CREATE INDEX idx_inscripcions_event_id ON inscripcions(event_id);
 
 --------------------------------------------------
--- DADES D'EXEMPLE: USUARIS
+-- Dades d'exemple: usuaris (comptes de prova)
 --------------------------------------------------
--- password en pla: admin
+-- Contrasenya en clar per proves: admin
 INSERT INTO usuaris (usuari, nom, cognoms, email, password_hash, rol) VALUES
 ('admin', 'Administrador', 'Sistema', 'admin@cercaevent.cat', '$2a$12$rpK8orU8.bYa3nRhrgE40ePMXZq5wCPkSZ/FtwtRUVEAYjBX.6QGy', 'ADMIN');
 
--- password en pla: marta123
+-- Contrasenya en clar per proves: marta123
 INSERT INTO usuaris (usuari, nom, cognoms, email, password_hash, rol) VALUES
 ('marta', 'Marta', 'Soler', 'marta@cercaevent.cat', '$2a$12$Tq.UlgYBpRImSVahIQCNVeUMLt9uuF36B7JPOvhm2iUfM5qd95HnK', 'USER');
--- password en pla: joan123
+-- Contrasenya en clar per proves: joan123
 INSERT INTO usuaris (usuari, nom, cognoms, email, password_hash, rol) VALUES
 ('joan', 'Joan', 'Serra', 'joan@cercaevent.cat', '$2a$12$6cvOfQ97fOGWzj2cwknRCeb/dRnOLvrcgSPxDq7yHFdluGumiMIHe', 'USER');
 
--- password en pla: laura123
+-- Contrasenya en clar per proves: laura123
 INSERT INTO usuaris (usuari, nom, cognoms, email, password_hash, rol) VALUES
 ('laura', 'Laura', 'Casas', 'laura@cercaevent.cat', '$2a$12$KiL3tzdb2j4b5ouq5/CMVONfSq7pShLCUob9dyfzZAm72AQQNKUlK', 'USER');
--- password en pla: pau123
+-- Contrasenya en clar per proves: pau123
 INSERT INTO usuaris (usuari, nom, cognoms, email, password_hash, rol) VALUES
 ('pau', 'Pau', 'Ribas', 'pau@cercaevent.cat', '$2a$12$oRchPQTN9fjlYno2hezXhusG8AHoPXFpApSjEPZNcI3in3xIK7cOi', 'USER');
 
--- password en pla: anna123
+-- Contrasenya en clar per proves: anna123
 INSERT INTO usuaris (usuari, nom, cognoms, email, password_hash, rol) VALUES
 ('anna', 'Anna', 'Vila', 'anna@cercaevent.cat', '$2a$12$4Abw3d3LaEeu1QhZ9Cd.qekzjuxWPvdxQUTzqbU6gIpgVDsGj2fXW', 'USER');
 --------------------------------------------------
--- DADES D'EXEMPLE: EVENTS
+-- Dades d'exemple: events (distints tipus)
 --------------------------------------------------
 
--- ESPORT
+-- Categoria: ESPORT
 INSERT INTO events (
     titol, descripcio, ubicacio, data_event, hora_event,
     aforament, places_disponibles, categoria, creador_id,
@@ -169,7 +169,7 @@ INSERT INTO events (
     'Pàdel', 'Avançat', 'Pala i roba esportiva'
 );
 
--- VIDEOJOC
+-- Categoria: VIDEOJOC
 INSERT INTO events (
     titol, descripcio, ubicacio, data_event, hora_event,
     aforament, places_disponibles, categoria, creador_id,
@@ -203,7 +203,7 @@ INSERT INTO events (
     'League of Legends', 'PC', '5vs5'
 );
 
--- TROBADA
+-- Categoria: TROBADA
 INSERT INTO events (
     titol, descripcio, ubicacio, data_event, hora_event,
     aforament, places_disponibles, categoria, creador_id,
@@ -238,42 +238,42 @@ INSERT INTO events (
 );
 
 --------------------------------------------------
--- DADES D'EXEMPLE: INSCRIPCIONS
+-- Dades d'exemple: inscripcions (mostra d'inscripcions i aforaments)
 --------------------------------------------------
 
--- Event 1 -> 2 inscrits (14 - 2 = 12)
+-- Exemple: event 1 té 2 inscrits (14 - 2 = 12)
 INSERT INTO inscripcions (usuari_id, event_id, data_inscripcio) VALUES
 (3, 1, TIMESTAMP '2026-04-20 10:00:00'),
 (5, 1, TIMESTAMP '2026-04-20 10:30:00');
 
--- Event 3 -> 3 inscrits (16 - 3 = 13)
+-- Exemple: event 3 té 3 inscrits (16 - 3 = 13)
 INSERT INTO inscripcions (usuari_id, event_id, data_inscripcio) VALUES
 (2, 3, TIMESTAMP '2026-04-21 09:15:00'),
 (3, 3, TIMESTAMP '2026-04-21 09:45:00'),
 (6, 3, TIMESTAMP '2026-04-21 10:10:00');
 
--- Event 4 -> 3 inscrits (16 - 3 = 13)
+-- Exemple: event 4 té 3 inscrits (16 - 3 = 13)
 INSERT INTO inscripcions (usuari_id, event_id, data_inscripcio) VALUES
 (2, 4, TIMESTAMP '2026-04-22 16:00:00'),
 (4, 4, TIMESTAMP '2026-04-22 16:05:00'),
 (6, 4, TIMESTAMP '2026-04-22 16:10:00');
 
--- Event 5 -> 2 inscrits (12 - 2 = 10)
+-- Exemple: event 5 té 2 inscrits (12 - 2 = 10)
 INSERT INTO inscripcions (usuari_id, event_id, data_inscripcio) VALUES
 (2, 5, TIMESTAMP '2026-04-23 18:00:00'),
 (3, 5, TIMESTAMP '2026-04-23 18:20:00');
 
--- Event 6 -> 1 inscrit (10 - 1 = 9)
+-- Exemple: event 6 té 1 inscrit (10 - 1 = 9)
 INSERT INTO inscripcions (usuari_id, event_id, data_inscripcio) VALUES
 (5, 6, TIMESTAMP '2026-04-24 17:40:00');
 
--- Event 7 -> 3 inscrits (25 - 3 = 22)
+-- Exemple: event 7 té 3 inscrits (25 - 3 = 22)
 INSERT INTO inscripcions (usuari_id, event_id, data_inscripcio) VALUES
 (2, 7, TIMESTAMP '2026-04-25 09:00:00'),
 (3, 7, TIMESTAMP '2026-04-25 09:05:00'),
 (5, 7, TIMESTAMP '2026-04-25 09:10:00');
 
--- Event 8 -> 4 inscrits (30 - 4 = 26)
+-- Exemple: event 8 té 4 inscrits (30 - 4 = 26)
 INSERT INTO inscripcions (usuari_id, event_id, data_inscripcio) VALUES
 (2, 8, TIMESTAMP '2026-04-26 19:00:00'),
 (3, 8, TIMESTAMP '2026-04-26 19:02:00'),

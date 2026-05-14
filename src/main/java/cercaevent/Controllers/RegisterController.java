@@ -1,3 +1,7 @@
+/*
+ * Controlador de registre: maneja la creació de nous usuaris i
+ * la validació dels camps del formulari de registre.
+ */
 package cercaevent.Controllers;
 
 import java.io.IOException;

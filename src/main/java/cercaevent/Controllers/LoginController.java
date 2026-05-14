@@ -1,3 +1,7 @@
+/*
+ * Controlador de login: gestiona l'autenticació d'usuaris i la validació
+ * bàsica de les credencials mostrant alertes en cas d'error.
+ */
 package cercaevent.Controllers;
 
 import java.io.IOException;

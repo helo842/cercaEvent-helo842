@@ -1,3 +1,7 @@
+/*
+ * Inicialització de la base de dades: crea l'esquema i insereix dades d'exemple
+ * quan cal, facilitant proves locals i desplegament inicial.
+ */
 package cercaevent.db;
 
 import java.io.BufferedReader;
